@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`必要なコンポーネントが表示されている スナップショットテスト 1`] = `
+<DocumentFragment>
+  <div
+    class="userId"
+  >
+    <input
+      class="chakra-input css-0"
+      placeholder="UserId"
+      type="text"
+      value=""
+    />
+    <label>
+      メールアドレスを入力してください。
+    </label>
+  </div>
+  <div
+    class="password"
+  >
+    <input
+      class="chakra-input css-0"
+      placeholder="password"
+      type="password"
+      value=""
+    />
+    <label>
+      8文字以上で入力してください。
+    </label>
+    <label>
+      大文字小文字数字を少なくとも1つずつ以上使用してください。
+    </label>
+  </div>
+  <button
+    class="chakra-button css-4xx2wk"
+    type="button"
+  >
+    ログイン
+  </button>
+</DocumentFragment>
+`;
