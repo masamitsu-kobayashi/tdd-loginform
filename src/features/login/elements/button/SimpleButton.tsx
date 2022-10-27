@@ -2,7 +2,7 @@ import { Button } from "@chakra-ui/react";
 import React from "react";
 
 interface Props {
-  isDisabled?: boolean;
+  disabled?: boolean;
   size?: "lg" | "md" | "sm" | "xs";
   label: string;
   handleClick?: () => void;
@@ -11,7 +11,9 @@ interface Props {
 export const SimpleButton = (props: Props) => {
   return (
     <>
-      <Button onClick={props.handleClick}>{props.label}</Button>
+      <Button onClick={props.handleClick} isDisabled={props.disabled}>
+        {props.label}
+      </Button>
     </>
   );
 };

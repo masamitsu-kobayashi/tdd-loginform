@@ -1,6 +1,6 @@
 import React from "react";
 import { isInvalidEmail } from "../utils/utils";
-import { InputField } from "./Input";
+import { InputField } from "../elements/input/Input";
 
 interface Props {
   value: string;

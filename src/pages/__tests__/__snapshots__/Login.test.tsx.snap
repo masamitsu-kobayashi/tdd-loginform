@@ -33,6 +33,7 @@ exports[`必要なコンポーネントが表示されている スナップシ�
   </div>
   <button
     class="chakra-button css-4xx2wk"
+    disabled=""
     type="button"
   >
     ログイン
