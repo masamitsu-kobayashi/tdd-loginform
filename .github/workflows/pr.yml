@@ -1,0 +1,50 @@
+name: PR Review Agent
+
+run-name: PR Review Agent [${{github.event.number}}]
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review, synchronize]
+  # types: [opened, reopened, ready_for_review] # for testing
+
+  issue_comment:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pr_agent_job:
+    if: ${{ github.event.sender.type != 'Bot' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      id-token: write
+      issues: write
+      pull-requests: write
+      contents: write
+    name: Run pr agent on every pull request, respond to user comments
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Auth to Google Cloud by OpenID Connect
+        uses: google-github-actions/auth@v2.1.7
+        with:
+          project_id: "gai-oss-app"
+          workload_identity_provider: "projects/109221284651/locations/global/workloadIdentityPools/github-actions-identity-pool/providers/github-actions-provider"
+
+      - name: PR Agent action step
+        id: pr-agent
+        uses: Codium-ai/pr-agent@15e8c988a482fe6d5d2aad836f4ecf3d0efc4ecc # ^v0.24
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github_action_config.auto_review: "true" # enable\disable auto review
+          github_action_config.auto_describe: "true" # enable\disable auto describe
+          github_action_config.auto_improve: "true" # enable\disable auto improve
+          github_action_config.pr_actions: '["opened", "reopened", "ready_for_review", "synchronize"]'
+          config.model: vertex_ai/gemini-1.5-flash
+          config.model_turbo: vertex_ai/gemini-1.5-flash
+          config.fallback_models: vertex_ai/gemini-1.5-flash
+          pr_reviewer.extra_instructions: "日本語で記述してください。"
+          pr_description.extra_instructions: "日本語で記述してください。タイトルに次のPrefixをつけてください。`feat:`, `fix:`, `perf:`, `refactor:`, `test:`, `chore:`, `ci:`, `docs:` etc"
+          pr_code_suggestions.extra_instructions: "日本語で記述してください。"
